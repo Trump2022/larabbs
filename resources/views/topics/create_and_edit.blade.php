@@ -44,7 +44,7 @@
 
                   <div class="mb-3">
             <textarea name="body" class="form-control" id="editor" rows="6" placeholder="请填入至少三个字符的内容。"
-                      required>{{ old('body', $topic->body) }}</textarea>
+                      >{{ old('body', $topic->body) }}</textarea>
                   </div>
 
                   <div class="well well-sm">
