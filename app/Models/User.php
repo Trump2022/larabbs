@@ -10,6 +10,7 @@ use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Auth\MustVerifyEmail as MustVerifyEmailTrait;
 
 use Illuminate\Support\Facades\Auth;
+use Spatie\Permission\Traits\HasRoles;
 
 /**
  * App\Models\User
@@ -43,6 +44,7 @@ use Illuminate\Support\Facades\Auth;
 class User extends Authenticatable implements MustVerifyEmail
 {
     use HasApiTokens, HasFactory, Notifiable, MustVerifyEmailTrait;
+    use HasRoles;
 
     use Notifiable {
         notify as protected laravelNotify;
@@ -115,4 +117,6 @@ class User extends Authenticatable implements MustVerifyEmail
         $this->save();
         $this->unreadNotifications->markAsRead();
     }
+
+
 }
