@@ -11,6 +11,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\TopicRequest;
 use App\Models\User;
+use App\Models\Link;
 
 class TopicsController extends Controller
 {
@@ -19,16 +20,16 @@ class TopicsController extends Controller
         $this->middleware('auth', ['except' => ['index', 'show']]);
     }
 
-	public function index(Request $request, Topic $topic, User $user)
-	{
-//		$topics = Topic::paginate(30);
-//		$topics = Topic::with('user', 'category')->paginate(30);
+    public function index(Request $request, Topic $topic, User $user, Link $link)
+    {
         $topics = $topic->withOrder($request->order)
-                        ->with('user', 'category')  // 预加载防止 N+1 问题
-                        ->paginate(20);
+            ->with('user', 'category')  // 预加载防止 N+1 问题
+            ->paginate(20);
         $active_users = $user->getActiveUsers();
-		return view('topics.index', compact('topics', 'active_users'));
-	}
+        $links = $link->getAllCached();
+
+        return view('topics.index', compact('topics', 'active_users', 'links'));
+    }
 
     public function show(Request $request, Topic $topic)
     {
